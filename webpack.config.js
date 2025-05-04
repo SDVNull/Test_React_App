@@ -1,13 +1,8 @@
 const path = require('path');
-const { Compiler } = require('webpack');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
 	mode: "development",
-	infrastructureLogging: {
-    level: 'warn'
-  },
-  stats: 'errors-warnings',
 	entry: "./src/index.js",
 	output: {
 		path: path.join(__dirname, "/dist"),
@@ -19,13 +14,12 @@ module.exports = {
 				test: /\.(js|jsx)$/,
 				exclude: /node_modules/,
 				use: {
-					loader: "babel-loader",
+					loader: 'babel-loader',
 					options: {
 						presets: [
-							['@babel/preset-env', { targets: "defaults" }],
-							'@babel/preset-react'
-						],
-						sourceType: 'unambiguous'
+							'@babel/preset-env',
+							['@babel/preset-react', { runtime: 'automatic' }]
+						]
 					}
 				}
 			},
@@ -35,12 +29,12 @@ module.exports = {
 			}
 		]
 	},
+	plugins: [
+		new HtmlWebpackPlugin({
+			template: "./src/index.html"
+		})
+	],
 	resolve: {
-		extensions: ['.js', '.jsx'],
-		plugins: [
-			new HtmlWebpackPlugin({
-				template: "./src/index.html",
-			})
-		]
-	},
-};
+		extensions: [".js", ".jsx"]
+	}
+}
