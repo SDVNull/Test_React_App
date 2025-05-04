@@ -1,7 +1,13 @@
 const path = require('path');
+const { Compiler } = require('webpack');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
+	mode: "development",
+	infrastructureLogging: {
+    level: 'warn'
+  },
+  stats: 'errors-warnings',
 	entry: "./src/index.js",
 	output: {
 		path: path.join(__dirname, "/dist"),
@@ -15,7 +21,10 @@ module.exports = {
 				use: {
 					loader: "babel-loader",
 					options: {
-						presets: ['@babel/preset-env', '@babel/preset-react'],
+						presets: [
+							['@babel/preset-env', { targets: "defaults" }],
+							'@babel/preset-react'
+						],
 						sourceType: 'unambiguous'
 					}
 				}
